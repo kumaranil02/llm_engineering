@@ -5,7 +5,7 @@ from litellm import completion
 from dotenv import load_dotenv
 
 from evaluation.test import TestQuestion, load_tests
-from implementation.answer import answer_question, fetch_context
+from pro_implementation.answer import answer_question, fetch_context
 
 
 load_dotenv(override=True)
@@ -91,6 +91,7 @@ def evaluate_retrieval(test: TestQuestion, k: int = 10) -> RetrievalEval:
     # Retrieve documents using shared answer module
     retrieved_docs = fetch_context(test.question)
 
+    print(f"Retrieved {len(retrieved_docs)} documents for question: {test.question}")
     # Calculate MRR (average across all keywords)
     mrr_scores = [calculate_mrr(keyword, retrieved_docs) for keyword in test.keywords]
     avg_mrr = sum(mrr_scores) / len(mrr_scores) if mrr_scores else 0.0
